@@ -31,8 +31,26 @@ class PostController extends Controller
         return response()->json($posts, 200);
     }
 
-    public function destroy($id) {
-        // Find the post by ID
+    public function getPost(int $id) {
+
+        $post = Post::findOrFail($id);
+
+        return response()->json($post, 200);
+    }
+
+    public function updatePost(Request $request, $id) {
+        $post = Post::findOrFail($id);
+
+        $post->title = $request->input('title');
+        $post->number = $request->input('number');
+        $post->text = $request->input('text');
+
+        $post->save();
+
+        return response()->json($post, 200);
+    }
+
+    public function destroy(int $id) {
         $post = Post::findOrFail($id);
 
         $post->delete();
